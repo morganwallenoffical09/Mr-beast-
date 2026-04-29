@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Portal | $1M STAKE</title>
+    <style>
+        :root { --gold: #D4AF37; --bg: #050505; --card: #111; --text: #eee; --border: #222;}
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { width: 90%; max-width: 450px; background: var(--card); padding: 40px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 30px 60px rgba(0,0,0,0.8); text-align: center; }
+        .step { display: none; }
+        .active { display: block; animation: fadeIn 0.5s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .gold-text { color: var(--gold); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 5px; }
+        #step-title { font-size: 1.1rem; font-weight: 600; color: #888; }
+        .progress-bar { height: 4px; background: #222; margin-bottom: 35px; border-radius: 2px; position: relative; }
+        .progress-fill { height: 100%; background: var(--gold); width: 25%; transition: 0.5s; box-shadow: 0 0 10px var(--gold); }
+        input { width: 100%; padding: 15px; margin: 10px 0; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 8px; box-sizing: border-box; outline: none; }
+        input:focus { border-color: var(--gold); }
+        .btn { width: 100%; padding: 16px; background: var(--gold); color: #000; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
+        .info-box { background: #1a1a1a; padding: 20px; border-radius: 8px; border-left: 4px solid var(--gold); margin: 25px 0; font-size: 0.9rem; color: #bbb; text-align: left; }
+        
+        /* Spinner Styles */
+        .loader { border: 4px solid #333; border-top: 4px solid var(--gold); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; display: none; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="gold-text">PROJECT: STAKE</div>
+        <div id="step-title">Phase 1: Authorization</div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+    <div class="step active" id="step1">
+        <h3>Private Access</h3>
+        <p>Enter the unique authorization code provided in your recruitment email.</p>
+        <input type="text" id="accessCode" placeholder="Enter Access Code">
+        <button class="btn" onclick="checkCode()">Verify Identity</button>
+    </div>
+
+    <div class="step" id="step2">
+        <h3>Project Briefing</h3>
+        <div class="info-box">
+            <strong>Estimated Prize:</strong> $1,000,000 USD<br>
+            <strong>Duration:</strong> 14 Days<br>
+            <strong>Distribution:</strong> Global Network
+        </div>
+        <button class="btn" onclick="nextStep(3)">Accept Scope</button>
+    </div>
+
+    <div class="step" id="step3">
+        <h3>Channel Audit</h3>
+        <p>Enter your details for the algorithmic engagement check.</p>
+        <input type="text" id="chanUrl" placeholder="Channel URL (YouTube/TikTok)" required>
+        <input type="text" id="chanName" placeholder="Legal Name / Manager Name" required>
+        
+        <div id="audit-loading">
+            <div class="loader" id="spinner"></div>
+            <p id="loading-text" style="display:none;">Auditing Channel Metrics...</p>
+        </div>
+
+        <button class="btn" id="auditBtn" onclick="runAudit()">Submit for Verification</button>
+    </div>
+
+    <div class="step" id="step4">
+        <h3 style="color: #2ecc71;">Selection Confirmed</h3>
+        <div class="info-box">
+            <strong style="color: white;">COMMITMENT BOND REQUIRED</strong><br><br>
+            A security deposit of <strong>$2,500.00</strong> is mandatory.
+        </div>
+        <a href="mailto:michealrudes@gmail.com?subject=STAKE BOND: [INSERT CHANNEL NAME]" style="text-decoration: none;">
+            <button class="btn">Contact Manager for Payment</button>
+        </a>
+    </div>
+</div>
+
+<script>
+    const SECRET_CODE = "STAKE2026"; 
+
+    function checkCode() {
+        const input = document.getElementById('accessCode').value;
+        if (input === SECRET_CODE) { nextStep(2); } 
+        else { alert("INVALID CODE: Access Denied."); }
+    }
+
+    function runAudit() {
+        const url = document.getElementById('chanUrl').value;
+        const name = document.getElementById('chanName').value;
+
+        if (!url || !name) {
+            alert("REQUIRED: Please provide your Channel URL and Name to proceed.");
+            return;
+        }
+
+        // Visual "Audit" Experience
+        document.getElementById('auditBtn').style.display = 'none';
+        document.getElementById('spinner').style.display = 'block';
+        document.getElementById('loading-text').style.display = 'block';
+
+        setTimeout(() => {
+            nextStep(4);
+        }, 3500); // 3.5 second delay makes it look like it's actually working
+    }
+
+    function nextStep(step) {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.getElementById('step' + step).classList.add('active');
+        const progress = (step / 4) * 100;
+        document.getElementById('progress').style.width = progress + '%';
+        const titles = ["", "Phase 1: Authorization", "Phase 2: Project Briefing", "Phase 3: Talent Vetting", "Phase 4: Final Approval"];
+        document.getElementById('step-title').innerText = titles[step];
+    }
+</script>
+
+</body>
+</html>
